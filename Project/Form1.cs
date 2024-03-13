@@ -16,30 +16,6 @@ namespace Project
 
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void PrjName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void pathbtn_Click(object sender, EventArgs e)
         {
@@ -55,6 +31,24 @@ namespace Project
 
         private void Export_Click(object sender, EventArgs e)
         {
+            try
+            {
+                ulong i = 0;
+                string row = txtRow.Text;
+                string col = txtCol.Text;
+
+                bool result = ulong.TryParse(row, out i) && ulong.TryParse(col, out i);
+                if (result == false ) { 
+                MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.","오류발생",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                }
+            }
+
+            catch 
+            {
+                
+            }
+
 
         }
 

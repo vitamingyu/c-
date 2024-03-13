@@ -54,7 +54,6 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
             // 
             // btnCancel
             // 
@@ -67,7 +66,6 @@
             btnCancel.TabIndex = 6;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += button1_Click;
             // 
             // btnExport
             // 
@@ -112,7 +110,6 @@
             Column.Size = new Size(111, 32);
             Column.TabIndex = 9;
             Column.Text = "Column :";
-            Column.Click += label1_Click;
             // 
             // Progress
             // 
@@ -123,7 +120,6 @@
             Progress.Size = new Size(105, 32);
             Progress.TabIndex = 9;
             Progress.Text = "Progress";
-            Progress.Click += label2_Click;
             // 
             // Row
             // 
@@ -134,7 +130,6 @@
             Row.Size = new Size(74, 32);
             Row.TabIndex = 9;
             Row.Text = "Row :";
-            Row.Click += label1_Click;
             // 
             // txtPath
             // 
