@@ -17,13 +17,13 @@ namespace Project3
     {
         Thread _thread = null;
 
-        /*public void fThreadStart()
+        public void fThreadStart()
         {
-        //    _thread = new Thread(new ThreadStart(Run));  // ThreadStart 델리게이트 타입 객체를 생성 후 함수를 넘김
+            //    _thread = new Thread(new ThreadStart(Run));  // ThreadStart 델리게이트 타입 객체를 생성 후 함수를 넘김
             _thread = new Thread(Run);   // 컴파일러에서 델리게이트 객체를 추론해서 생성 후 함수를 넘김 (new~생략)
-         
-          _thread.Start();
-        }*/
+
+            _thread.Start();
+        }
 
         private void Run()
         {
@@ -44,8 +44,8 @@ namespace Project3
 
 
                 sw.WriteLine("Hello World!!");
-                sw.WriteLine("From the StreamWriter class");
-                Thread.Sleep(5000);
+                sw.WriteLine("csvFile. time 3sec");
+                Thread.Sleep(3000);
                 sw.Close();
 
                 if (!rowResult || !colResult)
@@ -69,6 +69,7 @@ namespace Project3
         public Form1()
         {
             InitializeComponent();
+            // btnlock();
         }
 
         private void btnPath_Click(object sender, EventArgs e)
@@ -102,5 +103,17 @@ namespace Project3
         }
 
 
+
+
+
+        //public void ThreadAbort()
+        //{
+        //    if (_thread.IsAlive)
+        //    {
+        //        _thread.Abort();
+        //        btnExport.Enabled = false;
+        //    }
+
+        //}
     }
 }
