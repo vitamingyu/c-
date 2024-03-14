@@ -41,10 +41,10 @@ namespace Project3
                 string fullfilepath = Path.Combine(filepath, @"test.csv");
 
                 StreamWriter sw = new StreamWriter(fullfilepath);
-                
-                
-                    sw.WriteLine("Hello World!!");
-                    sw.WriteLine("From the StreamWriter class");
+
+
+                sw.WriteLine("Hello World!!");
+                sw.WriteLine("From the StreamWriter class");
                 Thread.Sleep(5000);
                 sw.Close();
 
