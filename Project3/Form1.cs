@@ -17,18 +17,6 @@ namespace Project3
     {
         Thread _thread = null;
 
-        //public void fThreadStart()
-        //{
-        //    _thread = new Thread(new ThreadStart(Run));  // ThreadStart 델리게이트 타입 객체를 생성 후 함수를 넘김
-        //    _thread = new Thread(Run);   // 컴파일러에서 델리게이트 객체를 추론해서 생성 후 함수를 넘김 (new~생략)
-         
-        //    _thread.Start();
-        //}
-
-        //private void Run()
-        //{
-
-        //}
 
         public Form1()
         {
@@ -83,21 +71,6 @@ namespace Project3
                 Console.WriteLine("Exception: " + er.Message);
             }
 
-                /*
-                 int ibar = 0;
-                 if(bar.Value + ivar > 100)
-                {
-                bar.Value = 100;
-                }else
-                {
-                bar.Value = var.Value + ivar
-                 */
-//            lblpro.Text = string.Format("{0}%", bar.value);
-        }
-
-        public void export()
-        {
-            
         }
     }
 }
