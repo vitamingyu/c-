@@ -1,28 +1,26 @@
-using System;
+ï»¿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace Project
+
+namespace Project3
 {
     public partial class Form1 : Form
     {
-
         public Form1()
         {
             InitializeComponent();
-
         }
 
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void pathbtn_Click(object sender, EventArgs e)
+        private void btnPath_Click(object sender, EventArgs e)
         {
             string folderPath = "";
             FolderBrowserDialog directchoosedlg = new FolderBrowserDialog();
@@ -31,12 +29,10 @@ namespace Project
                 folderPath = directchoosedlg.SelectedPath;
                 txtPath.Text = folderPath;
             }
-
         }
 
-        private void Export_Click(object sender, EventArgs e)
+        private void btnExport_Click(object sender, EventArgs e)
         {
-             
             try
             {
                 ulong rowNumber, colNumber;
@@ -58,12 +54,12 @@ namespace Project
                 if (!rowResult || !colResult)
 
                 {
-                    MessageBox.Show("ROW¿Í COLUMNÀº ¾çÀÇ Á¤¼ö°ª¸¸ ÀÔ·Â °¡´ÉÇÕ´Ï´Ù.", "¿À·ù¹ß»ı", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("ROWì™€ COLUMNì€ ì–‘ì˜ ì •ìˆ˜ê°’ë§Œ ì…ë ¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.", "ì˜¤ë¥˜ë°œìƒ", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 }
                 else
                 {
-                    MessageBox.Show(fullfilepath + "¿¡ ÆÄÀÏÀÌ ¼º°øÀûÀ¸·Î ÀúÀåµÇ¾ú½À´Ï´Ù.");
+                    MessageBox.Show(fullfilepath + "ì— íŒŒì¼ì´ ì„±ê³µì ìœ¼ë¡œ ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
                 }
             }
 
@@ -71,8 +67,6 @@ namespace Project
             {
                 Console.WriteLine("Exception: " + er.Message);
             }
-
         }
-
     }
 }
