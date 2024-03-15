@@ -11,6 +11,7 @@ namespace StringSlice
 
             WriteLine(greeting.Substring(0,5));  //Good
             WriteLine(greeting.Substring(5)); // 5부터 끝까지
+
             WriteLine();
 
             string[] arr = greeting.Split(
