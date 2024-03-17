@@ -133,9 +133,14 @@ namespace Project3
 
             if (mok >= 27)
             {
-                int mok2 = mok - 27;
+                int mok2 = mok;
+                while (mok2 >= 27)
+                {
+                    mok2 -= 27;
+                }
+
                 Alphabet letter2 = (Alphabet)mok2;
-                Alphabet letter3 = (Alphabet)(mok  / 26 - 1);
+                Alphabet letter3 = (Alphabet)((mok-1)  / 26 -1);
                 string cell = letter3.ToString() + letter2.ToString() + letter1.ToString() + row;
                 return cell;
             }
