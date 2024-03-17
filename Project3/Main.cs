@@ -25,9 +25,10 @@ namespace Project3
         }
 
         private void btnExport_Click(object sender, EventArgs e)
-        //export 버튼 클릭
         {
             //btnExport.Enabled = false;
+            progressBar1.Value = 0;
+            lblpro.Text = "0%";
             ThreadStart();
         }
 
@@ -40,6 +41,7 @@ namespace Project3
 
         private void Run()
         {
+            StreamWriter sw = null;
             try
             {
                 ulong rowNumber, colNumber;
@@ -56,14 +58,13 @@ namespace Project3
                 {
                     DialogResult result = MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.", "오류발생", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     //if(result == DialogResult.OK){
-                    //    btnExport.Enabled = true;
+                    //  btnExport.Enabled = true;
                     //}
                 }
+
                 else
                 {
-                    StreamWriter sw = new StreamWriter(filepath);
-                    // 양의 정수값 유효성 검사 후 파일 생성을 시작합니다
-
+                    sw = new StreamWriter(filepath);
                     sw.WriteLine("Hello World!!");
                     sw.WriteLine("csvFile. time 5sec");
                     Thread.Sleep(5000);
@@ -71,13 +72,13 @@ namespace Project3
 
                     DialogResult result = MessageBox.Show(filepath + "에 파일이 성공적으로 저장되었습니다.", "성공", MessageBoxButtons.OK);
                     //if(result == DialogResult.Yes){
-                    //    btnExport.Enabled = true;
+                    //  btnExport.Enabled = true;
                     //}
                 }
             }
-
             catch (ThreadAbortException abe)
             {
+                sw.Close();
                 abe.ToString();
             }
         }
@@ -109,19 +110,22 @@ namespace Project3
             //스레드가 실행중일 때만 중지하도록 구현했습니다
             {
                 _thread.Abort();
+
+                if (File.Exists(txtPath.Text))
+                {
+                    try
+                    {
+                        File.Delete(txtPath.Text);
+                    }
+                    catch (Exception ee)
+                    {
+                        ee.ToString();
+                    }
+                }
             }
 
-            System.IO.FileInfo file_info = new System.IO.FileInfo(txtPath.Text);
-            // 파일 생성이 끝나고 cancel버튼을 해당 파일을 삭제합니다.
-            // 파일 생성 중 cancel버튼을 누를시 스레드만 중단되고 삭제는 되지 않습니다(수정 예정)
-            try
-            {
-                file_info.Delete();
-            }
-            catch (Exception ee)
-            {
-                ee.ToString();
-            }
+
         }
+
     }
 }
