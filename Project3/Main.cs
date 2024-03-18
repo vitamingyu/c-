@@ -61,11 +61,8 @@ namespace Project3
             lblpro.Text = "0%";
             ThreadStart();
             btnExport.Enabled = false;
-            //_thread.Join();
-            btnExport.Enabled = true;
-
         }
-        
+
         public void ThreadStart()
         // export버튼 클릭시 스레드를 실행합니다
         {
@@ -79,7 +76,6 @@ namespace Project3
             try
             {
                 string filepath = txtPath.Text;
-
                 ulong rowNumber, colNumber;
                 string row = txtRow.Text;
                 string col = txtCol.Text;
@@ -101,16 +97,20 @@ namespace Project3
                     {
                         for (ulong j = 1; j <= colNumber; j++)
                         {
-                            string cell = Excelformat(j,i);
+                            string cell = Excelformat(j, i);
                             sw.Write("{0},", cell);
                         }
                         sw.WriteLine();
                     }
-
                     sw.Close();
-
                     DialogResult result = MessageBox.Show(filepath + "에 파일이 성공적으로 저장되었습니다.", "성공", MessageBoxButtons.OK);
                 }
+                this.Invoke(new Action(() =>
+                {
+                    btnExport.Enabled = true;
+                    progressBar1.Value = 100;
+                    lblpro.Text = "100%";
+                }));
             }
             catch (ThreadAbortException abe)
             {
@@ -152,7 +152,7 @@ namespace Project3
                 }
 
                 Alphabet letter2 = (Alphabet)mok2;
-                Alphabet letter3 = (Alphabet)((mok-1)  / 26 -1);
+                Alphabet letter3 = (Alphabet)((mok - 1) / 26 - 1);
                 string cell = letter3.ToString() + letter2.ToString() + letter1.ToString() + row;
                 return cell;
             }
@@ -211,9 +211,6 @@ namespace Project3
                     }
                 }
             }
-
-
         }
-
     }
 }
