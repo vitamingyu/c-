@@ -17,6 +17,36 @@ namespace Project3
 {
     public partial class Main : Form
     {
+        public enum Alphabet
+        {
+            A,
+            B,
+            C,
+            D,
+            E,
+            F,
+            G,
+            H,
+            I,
+            J,
+            K,
+            L,
+            M,
+            N,
+            O,
+            P,
+            Q,
+            R,
+            S,
+            T,
+            U,
+            V,
+            W,
+            X,
+            Y,
+            Z,
+        }
+
         Thread _thread = null;
 
         public Main()
@@ -25,9 +55,10 @@ namespace Project3
         }
 
         private void btnExport_Click(object sender, EventArgs e)
-        //export 버튼 클릭
         {
             //btnExport.Enabled = false;
+            progressBar1.Value = 0;
+            lblpro.Text = "0%";
             ThreadStart();
         }
 
@@ -40,8 +71,11 @@ namespace Project3
 
         private void Run()
         {
+            StreamWriter sw = null;
             try
             {
+                string filepath = txtPath.Text;
+
                 ulong rowNumber, colNumber;
                 string row = txtRow.Text;
                 string col = txtCol.Text;
@@ -50,35 +84,72 @@ namespace Project3
                 bool colResult = ulong.TryParse(col, out colNumber);
                 // row와 col의 숫자값이 커도 실행되도록 ulong타입으로 선언했습니다
 
-                string filepath = txtPath.Text;
-
                 if (!rowResult || !colResult)
                 {
                     DialogResult result = MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.", "오류발생", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    //if(result == DialogResult.OK){
-                    //    btnExport.Enabled = true;
-                    //}
                 }
+
                 else
                 {
-                    StreamWriter sw = new StreamWriter(filepath);
-                    // 양의 정수값 유효성 검사 후 파일 생성을 시작합니다
+                    sw = new StreamWriter(filepath);
 
-                    sw.WriteLine("Hello World!!");
-                    sw.WriteLine("csvFile. time 5sec");
-                    Thread.Sleep(5000);
+                    for (ulong i = 1; i <= rowNumber; i++)
+                    {
+                        for (ulong j = 1; j <= colNumber; j++)
+                        {
+                            string cell = Excelformat(j,i);
+                            sw.Write("{0},", cell);
+                        }
+                        sw.WriteLine();
+                    }
+
                     sw.Close();
 
                     DialogResult result = MessageBox.Show(filepath + "에 파일이 성공적으로 저장되었습니다.", "성공", MessageBoxButtons.OK);
-                    //if(result == DialogResult.Yes){
-                    //    btnExport.Enabled = true;
-                    //}
                 }
             }
-
             catch (ThreadAbortException abe)
             {
+                sw.Close();
                 abe.ToString();
+            }
+        }
+
+        private string Excelformat(ulong col, ulong row)
+        {
+            int mok = (int)(col - 1) / 26;
+            int index = (int)(col - 1) % 26;
+            Alphabet letter1 = (Alphabet)index;
+
+            //if (mok >= 676)
+            //{
+            //    int mok2 = mok - 27;
+            //    Alphabet letter2 = (Alphabet)mok2;
+            //    Alphabet letter3 = (Alphabet)(mok / 26 - 1);
+            //    Alphabet letter4 = (Alphabet)((mok/26)/26 - 1);
+            //    string cell = letter4.ToString() + letter3.ToString() + letter2.ToString() + letter1.ToString() + row;
+            //    return cell;
+            //}
+
+            if (mok >= 27)
+            {
+                int mok2 = mok - 27;
+                Alphabet letter2 = (Alphabet)mok2;
+                Alphabet letter3 = (Alphabet)(mok  / 26 - 1);
+                string cell = letter3.ToString() + letter2.ToString() + letter1.ToString() + row;
+                return cell;
+            }
+            else if (mok >= 1)
+            {
+                mok = mok - 1;
+                Alphabet letter2 = (Alphabet)mok;
+                string cell = letter2.ToString() + letter1.ToString() + row;
+                return cell;
+            }
+            else
+            {
+                string cell = letter1.ToString() + row;
+                return cell;
             }
         }
 
@@ -109,7 +180,6 @@ namespace Project3
             //스레드가 실행중일 때만 중지하도록 구현했습니다
             {
                 _thread.Abort();
-            }
 
             System.IO.FileInfo file_info = new System.IO.FileInfo(txtPath.Text);
             // 파일 생성이 끝나고 cancel버튼을 해당 파일을 삭제합니다.
@@ -174,5 +244,6 @@ namespace Project3
         {
             backgroundWorker1.RunWorkerAsync();
         }
+
     }
 }
