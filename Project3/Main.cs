@@ -121,22 +121,30 @@ namespace Project3
             int index = (int)(col - 1) % 26;
             Alphabet letter1 = (Alphabet)index;
 
-            //if (mok >= 676)
+            //if (mok >= 703)
             //{
             //    int mok2 = mok - 27;
+            //    while (mok2 >= 26)
+            //    {
+            //        mok2 -= 26;
+            //    }
             //    Alphabet letter2 = (Alphabet)mok2;
-            //    Alphabet letter3 = (Alphabet)(mok / 26 - 1);
-            //    Alphabet letter4 = (Alphabet)((mok/26)/26 - 1);
+            //    int mok3 = (mok - 703) / (26 * 27);
+            //    Alphabet letter3 = (Alphabet)(mok3);
+
+            //    int mok4 = (mok - 703 - mok3 * 26 * 26) / 26;
+            //    Alphabet letter4 = (Alphabet)mok4;
             //    string cell = letter4.ToString() + letter3.ToString() + letter2.ToString() + letter1.ToString() + row;
             //    return cell;
             //}
 
             if (mok >= 27)
             {
-                int mok2 = mok;
-                while (mok2 >= 27)
+                int mok2 = mok - 27;
+
+                while (mok2 >= 26)
                 {
-                    mok2 -= 27;
+                    mok2 -= 26;
                 }
 
                 Alphabet letter2 = (Alphabet)mok2;
@@ -182,9 +190,10 @@ namespace Project3
         private void btnCancel_Click(object sender, EventArgs e)
         {
             if (_thread != null && _thread.IsAlive)
-            //스레드가 실행중일 때만 중지하도록 구현했습니다
+            //스레드가 실행중일 때만 중지하도록
             {
                 _thread.Abort();
+                _thread.Join();
 
                 if (File.Exists(txtPath.Text))
                 {
