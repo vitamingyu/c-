@@ -122,6 +122,57 @@ namespace Project3
             {
                 ee.ToString();
             }
+            backgroundWorker1.CancelAsync();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            for(int i=0; i<=100;i++)
+            {
+                if(backgroundWorker1.CancellationPending)
+                {
+                    e.Cancel = true;
+                }
+                else
+                {
+                     simulateHeavyWork();
+                    backgroundWorker1.ReportProgress(i);
+                }
+               
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+            percentageLabel.Text = e.ProgressPercentage.ToString() + " %";
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if(e.Cancelled)
+            {
+                display("Work Cancelled");
+            }
+            else
+            {
+                display("work complete");
+            }
+            
+        }
+        private void simulateHeavyWork()
+        {
+            Thread.Sleep(100);
+        }
+
+        public void display(string text)
+        {
+            MessageBox.Show(text);
+        }
+
+        private void startBtn_Click(object sender, EventArgs e)
+        {
+            backgroundWorker1.RunWorkerAsync();
         }
     }
 }
