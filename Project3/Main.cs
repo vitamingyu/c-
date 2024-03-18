@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms.VisualStyles;
+using System.Runtime.InteropServices;
 
 
 namespace Project3
@@ -56,12 +57,15 @@ namespace Project3
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            //btnExport.Enabled = false;
             progressBar1.Value = 0;
             lblpro.Text = "0%";
             ThreadStart();
-        }
+            btnExport.Enabled = false;
+            //_thread.Join();
+            btnExport.Enabled = true;
 
+        }
+        
         public void ThreadStart()
         // export버튼 클릭시 스레드를 실행합니다
         {
