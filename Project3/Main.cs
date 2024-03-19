@@ -53,6 +53,7 @@ namespace Project3
             progressBar1.Value = 0;
             lblpro.Text = "0%";
             backgroundWorker1.RunWorkerAsync();
+            //background.isbusy 두번실행 체크(스레드 중복 방지)
             btnExport.Enabled = false;
         }
 
