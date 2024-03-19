@@ -181,17 +181,20 @@ namespace Project3
             {
                 _thread.Abort();
 
-            System.IO.FileInfo file_info = new System.IO.FileInfo(txtPath.Text);
-            // 파일 생성이 끝나고 cancel버튼을 해당 파일을 삭제합니다.
-            // 파일 생성 중 cancel버튼을 누를시 스레드만 중단되고 삭제는 되지 않습니다(수정 예정)
-            try
-            {
-                file_info.Delete();
+                if (File.Exists(txtPath.Text))
+                {
+                    try
+                    {
+                        File.Delete(txtPath.Text);
+                    }
+                    catch (Exception ee)
+                    {
+                        ee.ToString();
+                    }
+                }
             }
-            catch (Exception ee)
-            {
-                ee.ToString();
-            }
+
+
             backgroundWorker1.CancelAsync();
         }
 
@@ -243,6 +246,7 @@ namespace Project3
         private void startBtn_Click(object sender, EventArgs e)
         {
             backgroundWorker1.RunWorkerAsync();
+
         }
 
     }
