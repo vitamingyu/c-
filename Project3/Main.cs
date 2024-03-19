@@ -41,15 +41,10 @@ namespace Project3
             Z,
         }
 
-        Thread _thread = null;
 
         public Main()
         {
             InitializeComponent();
-            //backgroundWorker1.WorkerReportsProgress = true;
-            //backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
-            //backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
-            //backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
         }
 
 
@@ -59,6 +54,61 @@ namespace Project3
             lblpro.Text = "0%";
             backgroundWorker1.RunWorkerAsync();
             btnExport.Enabled = false;
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            StreamWriter sw = null;
+            try
+            {
+                string filepath = txtPath.Text;
+
+                ulong rowNumber, colNumber;
+                string row = txtRow.Text;
+                string col = txtCol.Text;
+
+                bool rowResult = ulong.TryParse(row, out rowNumber);
+                bool colResult = ulong.TryParse(col, out colNumber);
+
+                if (!rowResult || !colResult)
+                {
+                    MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.", "오류발생", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                sw = new StreamWriter(filepath);
+
+                for (ulong i = 1; i <= rowNumber; i++)
+                {
+                    if (worker.CancellationPending) // 작업 중지 확인
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+
+                    for (ulong j = 1; j <= colNumber; j++)
+                    {
+                        string cell = Excelformat(j, i);
+                        sw.Write("{0},", cell);
+                    }
+                    int progressPercentage = (int)((double)i / rowNumber * 100);
+                    worker.ReportProgress(progressPercentage);
+                    sw.WriteLine();
+                }
+
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("파일 생성 중 오류가 발생했습니다: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (sw != null)
+                    sw.Close();
+            }
         }
 
 
@@ -120,61 +170,6 @@ namespace Project3
         private void btnCancel_Click(object sender, EventArgs e)
         {
             backgroundWorker1.CancelAsync();
-        }
-
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            StreamWriter sw = null;
-            try
-            {
-                string filepath = txtPath.Text;
-
-                ulong rowNumber, colNumber;
-                string row = txtRow.Text;
-                string col = txtCol.Text;
-
-                bool rowResult = ulong.TryParse(row, out rowNumber);
-                bool colResult = ulong.TryParse(col, out colNumber);
-
-                if (!rowResult || !colResult)
-                {
-                    MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.", "오류발생", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-
-                sw = new StreamWriter(filepath);
-
-                for (ulong i = 1; i <= rowNumber; i++)
-                {
-                    if (worker.CancellationPending) // 작업 중지 확인
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
-
-                    for (ulong j = 1; j <= colNumber; j++)
-                    {
-                        string cell = Excelformat(j, i);
-                        sw.Write("{0},", cell);
-                    }
-                    int progressPercentage = (int)((double)i / rowNumber * 100);
-                    worker.ReportProgress(progressPercentage);
-                    sw.WriteLine();
-                }
-
-                sw.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("파일 생성 중 오류가 발생했습니다: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (sw != null)
-                    sw.Close();
-            }
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
