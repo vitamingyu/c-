@@ -77,54 +77,54 @@ namespace Project3
         //    _thread.Start();
         //}
 
-        private void Run()
-        {
-            StreamWriter sw = null;
-            try
-            {
-                string filepath = txtPath.Text;
-                ulong rowNumber, colNumber;
-                string row = txtRow.Text;
-                string col = txtCol.Text;
+        //private void Run()
+        //{
+        //    StreamWriter sw = null;
+        //    try
+        //    {
+        //        string filepath = txtPath.Text;
+        //        ulong rowNumber, colNumber;
+        //        string row = txtRow.Text;
+        //        string col = txtCol.Text;
 
-                bool rowResult = ulong.TryParse(row, out rowNumber);
-                bool colResult = ulong.TryParse(col, out colNumber);
-                // row와 col의 숫자값이 커도 실행되도록 ulong타입으로 선언했습니다
+        //        bool rowResult = ulong.TryParse(row, out rowNumber);
+        //        bool colResult = ulong.TryParse(col, out colNumber);
+        //        // row와 col의 숫자값이 커도 실행되도록 ulong타입으로 선언했습니다
 
-                if (!rowResult || !colResult)
-                {
-                    DialogResult result = MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.", "오류발생", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+        //        if (!rowResult || !colResult)
+        //        {
+        //            DialogResult result = MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.", "오류발생", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        //        }
 
-                else
-                {
-                    sw = new StreamWriter(filepath);
+        //        else
+        //        {
+        //            sw = new StreamWriter(filepath);
 
-                    for (ulong i = 1; i <= rowNumber; i++)
-                    {
-                        for (ulong j = 1; j <= colNumber; j++)
-                        {
-                            string cell = Excelformat(j, i);
-                            sw.Write("{0},", cell);
-                        }
-                        sw.WriteLine();
-                    }
-                    sw.Close();
-                    DialogResult result = MessageBox.Show(filepath + "에 파일이 성공적으로 저장되었습니다.", "성공", MessageBoxButtons.OK);
-                }
-                this.Invoke(new Action(() =>
-                {
-                    btnExport.Enabled = true;
-                    progressBar1.Value = 100;
-                    lblpro.Text = "100%";
-                }));
-            }
-            catch (ThreadAbortException abe)
-            {
-                sw.Close();
-                abe.ToString();
-            }
-        }
+        //            for (ulong i = 1; i <= rowNumber; i++)
+        //            {
+        //                for (ulong j = 1; j <= colNumber; j++)
+        //                {
+        //                    string cell = Excelformat(j, i);
+        //                    sw.Write("{0},", cell);
+        //                }
+        //                sw.WriteLine();
+        //            }
+        //            sw.Close();
+        //            DialogResult result = MessageBox.Show(filepath + "에 파일이 성공적으로 저장되었습니다.", "성공", MessageBoxButtons.OK);
+        //        }
+        //        this.Invoke(new Action(() =>
+        //        {
+        //            btnExport.Enabled = true;
+        //            progressBar1.Value = 100;
+        //            lblpro.Text = "100%";
+        //        }));
+        //    }
+        //    catch (ThreadAbortException abe)
+        //    {
+        //        sw.Close();
+        //        abe.ToString();
+        //    }
+        //}
 
         private string Excelformat(ulong col, ulong row)
         {
@@ -218,8 +218,6 @@ namespace Project3
                     }
                 }
             }
-
-
             backgroundWorker1.CancelAsync();
         }
 
@@ -297,82 +295,6 @@ namespace Project3
             }
 
 
-            backgroundWorker1.CancelAsync();
-        }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            StreamWriter sw = null;
-            try
-            {
-                string filepath = txtPath.Text;
-
-                ulong rowNumber, colNumber;
-                string row = txtRow.Text;
-                string col = txtCol.Text;
-
-                bool rowResult = ulong.TryParse(row, out rowNumber);
-                bool colResult = ulong.TryParse(col, out colNumber);
-
-                if (!rowResult || !colResult)
-                {
-                    MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.", "오류발생", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-
-                sw = new StreamWriter(filepath);
-
-                for (ulong i = 1; i <= rowNumber; i++)
-                {
-                    for (ulong j = 1; j <= colNumber; j++)
-                    {
-                        string cell = Excelformat(j, i);
-                        sw.Write("{0},", cell);
-                    }
-                    int progressPercentage = (int)((double)i / rowNumber * 100);
-                    worker.ReportProgress(progressPercentage);
-                    sw.WriteLine();
-                }
-
-                sw.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("파일 생성 중 오류가 발생했습니다: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (sw != null)
-                    sw.Close();
-            }
-        }
-
-        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            progressBar1.Value = e.ProgressPercentage;
-            lblpro.Text = e.ProgressPercentage.ToString() + " %";
-        }
-
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                MessageBox.Show("작업이 완료되지 못했습니다: " + e.Error.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (e.Cancelled)
-            {
-                MessageBox.Show("작업이 취소되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("작업이 완료되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-        }
-        
-
-
-    }
+    
 }
