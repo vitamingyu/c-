@@ -43,9 +43,6 @@
             this.btnPath = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.lblpro = new System.Windows.Forms.Label();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.percentageLabel = new System.Windows.Forms.Label();
-            this.startBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -189,32 +186,6 @@
             this.lblpro.TabIndex = 6;
             this.lblpro.Text = "0 %";
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // percentageLabel
-            // 
-            this.percentageLabel.AutoSize = true;
-            this.percentageLabel.Location = new System.Drawing.Point(868, 335);
-            this.percentageLabel.Name = "percentageLabel";
-            this.percentageLabel.Size = new System.Drawing.Size(114, 15);
-            this.percentageLabel.TabIndex = 7;
-            this.percentageLabel.Text = "percentageLabel";
-            // 
-            // startBtn
-            // 
-            this.startBtn.Location = new System.Drawing.Point(914, 395);
-            this.startBtn.Name = "startBtn";
-            this.startBtn.Size = new System.Drawing.Size(75, 23);
-            this.startBtn.TabIndex = 8;
-            this.startBtn.Text = "button1";
-            this.startBtn.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -222,8 +193,6 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(1023, 572);
-            this.Controls.Add(this.startBtn);
-            this.Controls.Add(this.percentageLabel);
             this.Controls.Add(this.lblpro);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.btnPath);
@@ -265,8 +234,6 @@
         private System.Windows.Forms.Button btnPath;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Label lblpro;
-        private System.Windows.Forms.Label percentageLabel;
-        private System.Windows.Forms.Button startBtn;
     }
 }
 
