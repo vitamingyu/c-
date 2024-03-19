@@ -17,6 +17,8 @@ namespace Project3
 {
     public partial class Main : Form
     {
+        BackgroundWorker backgroundWorker1 = new BackgroundWorker();
+
         public enum Alphabet
         {
             A,
@@ -52,6 +54,11 @@ namespace Project3
         public Main()
         {
             InitializeComponent();
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
+            backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+            backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
+
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -59,7 +66,8 @@ namespace Project3
             //btnExport.Enabled = false;
             progressBar1.Value = 0;
             lblpro.Text = "0%";
-            ThreadStart();
+            backgroundWorker1.RunWorkerAsync();
+            //ThreadStart();
         }
 
         public void ThreadStart()
@@ -200,54 +208,77 @@ namespace Project3
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            for(int i=0; i<=100;i++)
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            StreamWriter sw = null;
+            try
             {
-                if(backgroundWorker1.CancellationPending)
+                string filepath = txtPath.Text;
+
+                ulong rowNumber, colNumber;
+                string row = txtRow.Text;
+                string col = txtCol.Text;
+
+                bool rowResult = ulong.TryParse(row, out rowNumber);
+                bool colResult = ulong.TryParse(col, out colNumber);
+
+                if (!rowResult || !colResult)
                 {
-                    e.Cancel = true;
+                    MessageBox.Show("ROW와 COLUMN은 양의 정수값만 입력 가능합니다.", "오류발생", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
                 }
-                else
+
+                sw = new StreamWriter(filepath);
+
+                for (ulong i = 1; i <= rowNumber; i++)
                 {
-                     simulateHeavyWork();
-                    backgroundWorker1.ReportProgress(i);
+                    for (ulong j = 1; j <= colNumber; j++)
+                    {
+                        string cell = Excelformat(j, i);
+                        sw.Write("{0},", cell);
+                    }
+                    int progressPercentage = (int)((double)i / rowNumber * 100);
+                    worker.ReportProgress(progressPercentage);
+                    sw.WriteLine();
                 }
-               
+
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("파일 생성 중 오류가 발생했습니다: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (sw != null)
+                    sw.Close();
             }
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
-            percentageLabel.Text = e.ProgressPercentage.ToString() + " %";
+            lblpro.Text = e.ProgressPercentage.ToString() + " %";
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(e.Cancelled)
+            if (e.Error != null)
             {
-                display("Work Cancelled");
+                MessageBox.Show("작업이 완료되지 못했습니다: " + e.Error.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (e.Cancelled)
+            {
+                MessageBox.Show("작업이 취소되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                display("work complete");
+                MessageBox.Show("작업이 완료되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
-        }
-        private void simulateHeavyWork()
-        {
-            Thread.Sleep(100);
-        }
-
-        public void display(string text)
-        {
-            MessageBox.Show(text);
-        }
-
-        private void startBtn_Click(object sender, EventArgs e)
-        {
-            backgroundWorker1.RunWorkerAsync();
 
         }
+        
+
 
     }
 }

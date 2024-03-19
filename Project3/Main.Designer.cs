@@ -214,7 +214,6 @@
             this.startBtn.TabIndex = 8;
             this.startBtn.Text = "button1";
             this.startBtn.UseVisualStyleBackColor = true;
-            this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
             // 
             // Main
             // 
@@ -266,7 +265,6 @@
         private System.Windows.Forms.Button btnPath;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Label lblpro;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label percentageLabel;
         private System.Windows.Forms.Button startBtn;
     }
