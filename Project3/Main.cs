@@ -114,37 +114,18 @@ namespace Project3
 
         private string Excelformat(ulong col, ulong row)
         {
-            int mok = (int)(col - 1) / 26;
-            int index = (int)(col - 1) % 26;
-            Alphabet letter1 = (Alphabet)index;
+            string cell = "";
 
-            if (mok >= 27)
+            while (col > 0)
             {
-                int mok2 = mok - 27;
+                col--; // 1부터 시작하는 열 번호를 0부터 시작하는 인덱스로 변환
+                cell = (char)('A' + col % 26) + cell;
+                col /= 26;
+            }
 
-                while (mok2 >= 26)
-                {
-                    mok2 -= 26;
-                }
-
-                Alphabet letter2 = (Alphabet)mok2;
-                Alphabet letter3 = (Alphabet)((mok - 1) / 26 - 1);
-                string cell = letter3.ToString() + letter2.ToString() + letter1.ToString() + row;
-                return cell;
-            }
-            else if (mok >= 1)
-            {
-                mok = mok - 1;
-                Alphabet letter2 = (Alphabet)mok;
-                string cell = letter2.ToString() + letter1.ToString() + row;
-                return cell;
-            }
-            else
-            {
-                string cell = letter1.ToString() + row;
-                return cell;
-            }
+            return cell + row.ToString();
         }
+
 
         private void btnPath_Click(object sender, EventArgs e)
         {
