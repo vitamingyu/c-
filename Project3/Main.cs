@@ -16,6 +16,27 @@ namespace Project3
         // 이런 문제를 해결하기 위해 컨트롤의 내부 핸들이 작성된 스레드에서 대리자를 비동기식으로 실행합니다
         // 컨트롤의 내부 핸들이 작성된 스레드에서 특정 인수를 사용하여 지정된 대리자를 비동기식으로 실행합니다.
 
+        //public void ReportProgress(int p)
+        //{
+        //    if (progressBar1.InvokeRequired)
+        //    {
+        //        progressBar1.BeginInvoke(new Action(() => progressBar1.Value = p));
+        //    }
+        //    else
+        //    {
+        //        progressBar1.Value = p;
+        //    }
+
+        //    if (lblpro.InvokeRequired)
+        //    {
+        //        lblpro.BeginInvoke(new Action(() => lblpro.Text = p.ToString() + "%"));
+        //    }
+        //    else
+        //    {
+        //        lblpro.Text = p.ToString() + "%";
+        //    }
+        //}
+
         public enum Alphabet
         {
             A,
