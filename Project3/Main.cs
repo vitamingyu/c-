@@ -11,6 +11,11 @@ namespace Project3
     {
         BackgroundWorker backgroundWorker1 = new BackgroundWorker();
 
+        // 스레드로 처리시
+        // UI변경을 메인 스레드가 아닌 메소드에서 수정할시 예외처리가 발생합니다.
+        // 이런 문제를 해결하기 위해 컨트롤의 내부 핸들이 작성된 스레드에서 대리자를 비동기식으로 실행합니다
+        // 컨트롤의 내부 핸들이 작성된 스레드에서 특정 인수를 사용하여 지정된 대리자를 비동기식으로 실행합니다.
+
         public enum Alphabet
         {
             A,
@@ -184,6 +189,7 @@ namespace Project3
             }
             btnExport.Enabled = true;
         }
+
     }
 
 }
