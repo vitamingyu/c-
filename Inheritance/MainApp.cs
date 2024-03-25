@@ -6,7 +6,6 @@ namespace Inheritance
     class Base
     {
         protected string Name;
-
         public Base(string Name)
         {
             this.Name = Name;
